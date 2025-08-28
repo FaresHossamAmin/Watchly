@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:watchly/core/services/services_locator.dart';
 import 'package:watchly/core/utils/extensions.dart';
 import 'package:watchly/movies/presentation/bloc/movies_bloc.dart';
-import 'package:watchly/movies/presentation/components/category_see_more_component.dart';
 import 'package:watchly/movies/presentation/components/now_playing_component.dart';
 import 'package:watchly/movies/presentation/components/popular_component.dart';
 import 'package:watchly/movies/presentation/components/top_rated_component.dart';
 import 'package:watchly/movies/presentation/screens/popular_screen.dart';
 import 'package:watchly/movies/presentation/screens/top_rated_screen.dart';
+import 'package:watchly/movies/presentation/widgets/category_see_more.dart';
 
 class MainMoviesScreen extends StatelessWidget {
   const MainMoviesScreen({super.key});
@@ -28,7 +28,7 @@ class MainMoviesScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const NowPlayingComponent(),
-                SeeMoreComponent(
+                CategorySeeMore(
                   text: "Popular",
                   seeMore: () {
                     Navigator.push(
@@ -40,7 +40,7 @@ class MainMoviesScreen extends StatelessWidget {
                   },
                 ),
                 const PopularComponent(),
-                SeeMoreComponent(
+                CategorySeeMore(
                   text: "Top Rated",
                   seeMore: () {
                     Navigator.push(

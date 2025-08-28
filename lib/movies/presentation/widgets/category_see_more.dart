@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:watchly/core/utils/extensions.dart';
 
-class SeeMoreComponent extends StatelessWidget {
+class CategorySeeMore extends StatelessWidget {
   final String text;
   final Function() seeMore;
-  const SeeMoreComponent({
-    super.key,
-    required this.text,
-    required this.seeMore,
-  });
+  const CategorySeeMore({super.key, required this.text, required this.seeMore});
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:watchly/core/constants/api_constants.dart';
+import 'package:watchly/core/constants/movie_api_constants.dart';
 import 'package:watchly/core/errors/exception.dart';
 import 'package:watchly/core/network/error_message_model.dart';
 import 'package:watchly/movies/data/models/movie_details_model.dart';
@@ -20,7 +20,7 @@ class RemoteDatasource extends BaseRemoteDataSource {
   final Dio _dio = Dio();
 
   Future<List<MovieModel>> _fetchMovies(String endpoint) async {
-    final response = await _dio.get(ApiConstants.movieListPath(endpoint));
+    final response = await _dio.get(MovieApiConstants.listPath(endpoint));
 
     if (response.statusCode == 200) {
       return List<MovieModel>.from(
@@ -37,18 +37,19 @@ class RemoteDatasource extends BaseRemoteDataSource {
 
   @override
   Future<List<MovieModel>> getNowPlayingMovies() =>
-      _fetchMovies(ApiConstants.now);
+      _fetchMovies(MovieApiConstants.nowPlaying);
 
   @override
-  Future<List<MovieModel>> getPopularMovies() => _fetchMovies(ApiConstants.pop);
+  Future<List<MovieModel>> getPopularMovies() =>
+      _fetchMovies(MovieApiConstants.popular);
 
   @override
   Future<List<MovieModel>> getTopRatedMovies() =>
-      _fetchMovies(ApiConstants.top);
+      _fetchMovies(MovieApiConstants.topRated);
 
   @override
   Future<MovieDetailsModel> getMovieDetails(MovieDetailsPar p) async {
-    final response = await _dio.get(ApiConstants.movieDetailsPath(p.movieId));
+    final response = await _dio.get(MovieApiConstants.detailsPath(p.movieId));
 
     if (response.statusCode == 200) {
       return MovieDetailsModel.fromJson(response.data);
@@ -61,7 +62,7 @@ class RemoteDatasource extends BaseRemoteDataSource {
 
   @override
   Future<List<SimilarMoviesModel>> getSimilarMovies(SimiarMoviePar p) async {
-    final response = await _dio.get(ApiConstants.movieSimilarPath(p.movieId));
+    final response = await _dio.get(MovieApiConstants.similarPath(p.movieId));
 
     if (response.statusCode == 200) {
       return List<SimilarMoviesModel>.from(

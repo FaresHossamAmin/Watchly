@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:watchly/core/services/services_locator.dart';
 import 'package:watchly/movies/presentation/bloc/movies_bloc.dart';
-import 'package:watchly/movies/presentation/components/movie_card.dart';
+import 'package:watchly/movies/presentation/widgets/vertical_movie_cards.dart';
 
 class TopRatedScreen extends StatelessWidget {
   const TopRatedScreen({super.key});
@@ -12,20 +12,15 @@ class TopRatedScreen extends StatelessWidget {
     return SafeArea(
       child: BlocProvider(
         create: (_) => sl<MoviesBloc>()..add(GetTopRatedMoviesEvent()),
-        child: BlocBuilder<MoviesBloc, MoviesState>(
-          builder: (context, state) {
-            {
-              final movies = state.topRatedMovies;
-              return ListView.separated(
-                padding: const EdgeInsets.all(8),
-                itemCount: movies.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 10),
-                itemBuilder: (context, index) {
-                  return MovieCard(movie: movies[index]);
-                },
-              );
-            }
-          },
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("Top Rated Movies"),
+            backgroundColor: Color.fromRGBO(25, 25, 25, 1),
+          ),
+          body: BlocBuilder<MoviesBloc, MoviesState>(
+            builder: (context, state) =>
+                VerticalMovieCards(movies: state.topRatedMovies),
+          ),
         ),
       ),
     );

@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:watchly/core/constants/api_constants.dart';
+import 'package:watchly/core/constants/image_api_constants.dart';
 import 'package:watchly/core/utils/extensions.dart';
 import 'package:watchly/movies/domain/entities/movie_entity.dart';
 import 'package:watchly/movies/presentation/screens/movie_details_screen.dart';
+import 'package:watchly/movies/presentation/widgets/movie_rating.dart';
 
 class MovieCard extends StatelessWidget {
   final MovieEntity movie;
@@ -40,7 +41,7 @@ class MovieCard extends StatelessWidget {
 
                   child: CachedNetworkImage(
                     fit: BoxFit.fitWidth,
-                    imageUrl: ApiConstants.getImage(movie.posterPath),
+                    imageUrl: ImageApiConstants.getImage(movie.posterPath),
                     placeholder: (_, __) =>
                         const Center(child: CircularProgressIndicator()),
                     errorWidget: (_, __, ___) =>
@@ -89,10 +90,10 @@ class MovieCard extends StatelessWidget {
                           ),
                         ),
                         12.sbw,
-                        const Icon(Icons.star, color: Colors.amber, size: 18),
+                        MovieRating(rating: movie.voteAverage),
                         4.sbw,
                         Text(
-                          movie.voteAverage.toStringAsFixed(1),
+                          (movie.voteAverage / 2).toStringAsFixed(1),
                           style: GoogleFonts.poppins(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,

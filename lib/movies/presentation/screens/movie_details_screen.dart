@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:watchly/core/constants/api_constants.dart';
+import 'package:watchly/core/constants/image_api_constants.dart';
 import 'package:watchly/core/services/services_locator.dart';
 import 'package:watchly/core/utils/enums.dart';
+import 'package:watchly/core/utils/extensions.dart';
 import 'package:watchly/movies/domain/entities/genre.dart';
 import 'package:watchly/movies/presentation/bloc/movie_details_bloc.dart';
+import 'package:watchly/movies/presentation/widgets/movie_rating.dart';
 
 class MovieDetailScreen extends StatelessWidget {
   final int id;
@@ -47,7 +49,6 @@ class MovieDetailContent extends StatelessWidget {
               return CustomScrollView(
                 key: const Key('movieDetailScrollView'),
                 slivers: [
-                  /// --- App Bar with backdrop ---
                   SliverAppBar(
                     pinned: false,
                     expandedHeight: 200.0,
@@ -73,7 +74,9 @@ class MovieDetailContent extends StatelessWidget {
                           blendMode: BlendMode.dstIn,
                           child: CachedNetworkImage(
                             width: MediaQuery.of(context).size.width,
-                            imageUrl: ApiConstants.getImage(movie.backdropPath),
+                            imageUrl: ImageApiConstants.getImage(
+                              movie.backdropPath,
+                            ),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -81,7 +84,6 @@ class MovieDetailContent extends StatelessWidget {
                     ),
                   ),
 
-                  /// --- Movie info ---
                   SliverToBoxAdapter(
                     child: FadeInUp(
                       from: 60,
@@ -101,7 +103,6 @@ class MovieDetailContent extends StatelessWidget {
                             ),
                             const SizedBox(height: 8.0),
 
-                            /// release year + rating + duration
                             Row(
                               children: [
                                 Container(
@@ -110,7 +111,7 @@ class MovieDetailContent extends StatelessWidget {
                                     horizontal: 8.0,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: Colors.grey[800],
+                                    color: Colors.red,
                                     borderRadius: BorderRadius.circular(4.0),
                                   ),
                                   child: Text(
@@ -124,11 +125,8 @@ class MovieDetailContent extends StatelessWidget {
                                 const SizedBox(width: 24.0),
                                 Row(
                                   children: [
-                                    const Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                      size: 20.0,
-                                    ),
+                                    MovieRating(rating: movie.voteAverage),
+
                                     const SizedBox(width: 6.0),
                                     Text(
                                       (movie.voteAverage / 2).toStringAsFixed(
@@ -142,7 +140,7 @@ class MovieDetailContent extends StatelessWidget {
                                     const SizedBox(width: 4.0),
                                   ],
                                 ),
-                                const SizedBox(width: 16.0),
+                                16.sbw,
                                 Text(
                                   _showDuration(movie.runtime),
                                   style: const TextStyle(
@@ -156,7 +154,6 @@ class MovieDetailContent extends StatelessWidget {
 
                             const SizedBox(height: 20.0),
 
-                            /// overview
                             Text(
                               movie.overview,
                               style: const TextStyle(
@@ -167,7 +164,6 @@ class MovieDetailContent extends StatelessWidget {
                             ),
                             const SizedBox(height: 8.0),
 
-                            /// genres
                             Text(
                               'Genres: ${_showGenres(movie.genres)}',
                               style: const TextStyle(
@@ -183,7 +179,6 @@ class MovieDetailContent extends StatelessWidget {
                     ),
                   ),
 
-                  /// --- "More like this" title ---
                   SliverPadding(
                     padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
                     sliver: SliverToBoxAdapter(
@@ -202,7 +197,6 @@ class MovieDetailContent extends StatelessWidget {
                     ),
                   ),
 
-                  /// --- Recommendations ---
                   SliverPadding(
                     padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
                     sliver: _showSimilarMovies(),
@@ -223,20 +217,17 @@ class MovieDetailContent extends StatelessWidget {
     );
   }
 
-  /// Genres
   String _showGenres(List<Genre> genres) {
     if (genres.isEmpty) return "";
     return genres.map((g) => g.name).join(", ");
   }
 
-  /// Runtime formatter
   String _showDuration(int runtime) {
     final int hours = runtime ~/ 60;
     final int minutes = runtime % 60;
     return hours > 0 ? '${hours}h ${minutes}m' : '${minutes}m';
   }
 
-  /// Similar movies section
   Widget _showSimilarMovies() {
     return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
       builder: (context, state) {
@@ -277,7 +268,7 @@ class MovieDetailContent extends StatelessWidget {
                             Radius.circular(8.0),
                           ),
                           child: CachedNetworkImage(
-                            imageUrl: ApiConstants.getImage(
+                            imageUrl: ImageApiConstants.getImage(
                               similar.posterPath ?? "",
                             ),
                             placeholder: (context, url) => Shimmer.fromColors(
