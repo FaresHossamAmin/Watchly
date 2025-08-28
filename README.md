@@ -11,6 +11,7 @@ Browse and explore movies with a clean, scalable codebase following best practic
 - Scalable & maintainable code using Clean Architecture
 
 ## Project Structure
+```
 lib/
 ┣ core/                 # Core layer (shared utilities & base classes)
 ┃ ┣ constants/          # App constants (API keys, URLs, etc.)
@@ -37,11 +38,10 @@ lib/
 ┃   ┗ widgets/          # Simpler Reusable Widgets
 ┃
 ┗ main.dart             # App entry point
-
+```
 ## Tech Stack
-
-Flutter (Dart)
-Clean Architecture (Data → Domain → Presentation)
-Bloc for state management
-Dio for API requests
-TMDB API for movies data
+- Flutter (Dart)
+- Clean Architecture (Data → Domain → Presentation)
+- BLoC for state management
+- Dio for API requests
+- TMDB API for movies data
