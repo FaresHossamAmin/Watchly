@@ -1,16 +1,47 @@
-# watchly
+# Watchly
 
-A new Flutter project.
+A Flutter Movie Browsing App built with Clean Architecture principles.
+Browse and explore movies with a clean, scalable codebase following best practices.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+### Browse trending and popular movies
+- Movie details page (overview, rating, release date, etc.)
+- Built with Bloc
+- Scalable & maintainable code using Clean Architecture
 
-A few resources to get you started if this is your first Flutter project:
+## Project Structure
+lib/
+┣ core/                 # Core layer (shared utilities & base classes)
+┃ ┣ constants/          # App constants (API keys, URLs, etc.)
+┃ ┣ errors/             # Error handling & exceptions
+┃ ┣ network/            # Networking Error
+┃ ┣ router/             # App navigation and route handling
+┃ ┣ services/           # Service locator (getIt)
+┃ ┣ usecase/            # Base usecase classes
+┃ ┗ utils/              # Helper functions & extensions
+┃
+┣ movies/
+┃ ┣ data/               # Data layer
+┃ ┃ ┣ datasources/      # Remote & local data sources
+┃ ┃ ┣ models/           # Data models (DTOs)
+┃ ┃ ┗ repositories/     # Repository implementations
+┃ ┣ domain/             # Domain layer
+┃ ┃ ┣ entities/         # Core business entities
+┃ ┃ ┣ repositories/     # Repository contracts
+┃ ┃ ┗ usecases/         # Application use cases
+┃ ┗ presentation/       # UI layer
+┃   ┣ bloc/             # State management (BLoC)
+┃   ┣ screens/          # Screens / Pages
+┃   ┣ components/       # More Complex Reusable widgets
+┃   ┗ widgets/          # Simpler Reusable Widgets
+┃
+┗ main.dart             # App entry point
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Tech Stack
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Flutter (Dart)
+Clean Architecture (Data → Domain → Presentation)
+Bloc for state management
+Dio for API requests
+TMDB API for movies data
